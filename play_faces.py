@@ -3,8 +3,8 @@ from time import sleep
 
 # Create an instance of the FurhatRemoteAPI class, providing the address of the robot or the SDK running the virtual robot
 # furhat = FurhatRemoteAPI("10.100.237.184")
-#furhat = FurhatRemoteAPI("localhost")
-furhat = FurhatRemoteAPI("10.100.237.49")
+furhat = FurhatRemoteAPI("localhost")
+# furhat = FurhatRemoteAPI("10.100.237.49")
 
 # Get the voices on the robot
 voices = furhat.get_voices()

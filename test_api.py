@@ -3,8 +3,6 @@ import json
 import shutil
 
 
-
-
 # Create an instance of the FurhatRemoteAPI class, providing the address of the robot or the SDK running the virtual robot
 furhat = FurhatRemoteAPI("10.100.237.184")
 #furhat = FurhatRemoteAPI("localhost")
