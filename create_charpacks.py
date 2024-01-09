@@ -5,7 +5,7 @@ import os
 import zipfile
 
 texture_sources = "plot_src"
-char_mane = "Amauri"
+char_name = "Amauri"
 texture_type = "facial-hair"
 texture_name = "boxplot"
 
@@ -78,7 +78,7 @@ def update_json(jsonfile, new_texture_folder,new_json_filename):
 
 ### Clean previous build
 remove_folder("models")
-remove_file(char_mane+".charpack")
+remove_file(char_name+".charpack")
             
 ### Copy data to create a new character pack into the models folder based on the models src
 create_new_character_copy("models_src", "models")
@@ -91,12 +91,12 @@ for file in files_in_directory:
     print(file)
     txt_name = texture_name+""+str(counter)
     move_and_rename_image(texture_sources+"/"+file, "./models/adult/textures/"+texture_type+"/"+txt_name, new_image_name="albedo.png")
-    update_json('models_src/adult/profiles/characters/Victor.json',txt_name, 'models/adult/profiles/characters/'+char_mane+str(counter)+".json")
+    update_json('models_src/adult/profiles/characters/Victor.json',txt_name, 'models/adult/profiles/characters/'+char_name+str(counter)+".json")
     counter+=1
 
 
 ### zip all the characters into a charpack
-zf = zipfile.ZipFile(char_mane+".charpack", "w")
+zf = zipfile.ZipFile(char_name+".charpack", "w")
 for dirname, subdirs, files in os.walk("models"):
     zf.write(dirname)
     for filename in files:
