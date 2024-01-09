@@ -57,7 +57,7 @@ def move_and_rename_image(image_path, new_folder_name, new_image_name):
 
 
 ## Updates the character profile and points to the new texture
-def update_json(jsonfile, new_texture_folder,new_json_filename):
+def update_json(jsonfile, new_texture_folder, new_json_filename):
     # Read the JSON file
     with open(jsonfile, 'r') as file:
         data = json.load(file)
@@ -85,7 +85,7 @@ create_new_character_copy("models_src", "models")
 
 
 # for each png image in the plot_src folder, created a new character profile linking to that png as a texture
-counter =1
+counter = 1
 files_in_directory = list_files_in_directory(texture_sources)
 for file in files_in_directory:
     print(file)
