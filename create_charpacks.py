@@ -2,14 +2,18 @@ from furhat_remote_api import FurhatRemoteAPI
 import json
 import shutil
 import os
-import zipfile
+from zipfile import ZipFile
 
 
 ################ GLOBAL VARIABLES ################
+JSON_SRC = "json_src"
 TEXTURE_SRC = "plot_src"
-CHAR_NAME = "Amauri"
+
+BASE_CHAR_NAME = "Chen"
+NEW_CHAR_NAME = "Michael"
+
 TEXTURE_TYPE = "facial-hair"
-TEXTURE_NAME = "boxplot"
+TEXTURE_NAME = "leaf"
 
 
 ################ UTIL FUNCTIONS ################
@@ -52,7 +56,8 @@ def move_and_rename_image(image_path, new_folder_name, new_image_name):
     # Create a new subfolder if it doesn't exist
     if not os.path.exists(new_folder_name):
         print(new_folder_name)
-        os.mkdir(new_folder_name)
+        # os.mkdir(new_folder_name)        ### somehow doesn't work for my Windows computer :(
+        os.makedirs(new_folder_name)
 
     # Form the new path for the image in the new folder with the new name
     new_path = os.path.join(new_folder_name, new_image_name)
@@ -68,7 +73,7 @@ def update_json(jsonfile, new_texture_folder, new_json_filename):
         data = json.load(file)
 
     # Modify the value of "facial-hair" overlay
-    new_facial_hair_value = "new_facial_hair_value"
+    # new_facial_hair_value = "new_facial_hair_value"
     for overlay in data["TextureController"]["Overlays"]:
         if overlay["CAT"] == "facial-hair":
             overlay["VAL"] = new_texture_folder
@@ -86,7 +91,7 @@ def update_json(jsonfile, new_texture_folder, new_json_filename):
 
 ### Clean previous build
 remove_folder("models")
-remove_file(CHAR_NAME+".charpack")
+remove_file(".charpacks/"+NEW_CHAR_NAME+".charpack")
             
 ### Copy data to create a new character pack into the models folder based on the models src
 create_new_character_copy("models_src", "models")
@@ -99,14 +104,24 @@ for file in files_in_directory:
     print(file)
     numbered_txtr_name = TEXTURE_NAME+""+str(counter)
     move_and_rename_image(TEXTURE_SRC+"/"+file, "./models/adult/textures/"+TEXTURE_TYPE+"/"+numbered_txtr_name, new_image_name="albedo.png")
-    update_json('models_src/adult/profiles/characters/Victor.json', numbered_txtr_name, 'models/adult/profiles/characters/'+CHAR_NAME+str(counter)+".json")
+    # update_json('models_src/adult/profiles/characters/Victor.json', numbered_txtr_name, 'models/adult/profiles/characters/'+NEW_CHAR_NAME+str(counter)+".json")
+    update_json(JSON_SRC+'/'+BASE_CHAR_NAME+'.json', numbered_txtr_name, 'models/adult/profiles/characters/'+NEW_CHAR_NAME+str(counter)+".json")
     counter+=1
 
 
+# ### zip all the characters into a charpack
+# zf = ZipFile(".charpacks/"+NEW_CHAR_NAME+".charpack", "w")
+# for dirname, subdirs, files in os.walk("models"):
+#     zf.write(dirname)
+#     for filename in files:
+#         zf.write(os.path.join(dirname, filename))
+# zf.close()
+
+
 ### zip all the characters into a charpack
-zf = zipfile.ZipFile(CHAR_NAME+".charpack", "w")
-for dirname, subdirs, files in os.walk("models"):
-    zf.write(dirname)
-    for filename in files:
-        zf.write(os.path.join(dirname, filename))
-zf.close()
+with ZipFile("./charpacks/"+NEW_CHAR_NAME+".charpack", "w") as zf:
+    for dirname, subdirs, files in os.walk("models"):
+        zf.write(dirname)
+        for filename in files:
+            zf.write(os.path.join(dirname, filename))
+

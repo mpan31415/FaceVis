@@ -21,10 +21,13 @@ furhat.say(text="Hi there!")
 # Perform a named gesture
 furhat.gesture(name="BrowRaise")
 
-
+# Loop through faces to create animation
 for i in range(1,11,1):
     furhat.set_face(mask="adult",character="Amauri/Amauri"+str(i))
     sleep(0.5)
+
+# furhat.set_face(mask="adult", character="Amauri/Victor")
+# furhat.set_face(mask="adult", character="StandardExtras/Luna")
 
 # Set the voice of the robot
 furhat.set_voice(name='Brian')
