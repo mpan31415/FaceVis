@@ -9,11 +9,24 @@ from zipfile import ZipFile
 JSON_SRC = "json_src"
 TEXTURE_SRC = "plot_src"
 
-BASE_CHAR_NAME = "Chen"
+BASE_CHAR_NAME = "Isabel"
 NEW_CHAR_NAME = "Michael"
 
 TEXTURE_TYPE = "facial-hair"
 TEXTURE_NAME = "leaf"
+
+# OVERLAY_NAMES = ['scars', 'skin-texture', 'eyebrows', 'eye-shadow', 'eye-liner', 'eye-effects',
+#                  'freckles', 'spots', 'skin-blush', 'nose', 'cyborg-top', 'cyborg-bottom', 
+#                  'facial-hair', 'lips', 'cyborg-lips', 'tattoos', 'piercings']
+
+OVERLAY_NAMES = ['scars', 'eyebrows', 'freckles', 'spots', 'facial-hair', 'tattoos', 'piercings']
+
+
+################# TO EXPAND THE SCALE AND SCOPE OF CONCIOUSNESS #################
+# 1. Choose the total number of frames (ie number of faces / json files to generate)
+# 2. Have a list of dictionaries, each dict corresponds to the configuration of the face in each frame
+# 3. Loop through all frames, for each frame, read the config dict and update json accordingly
+
 
 
 ################ UTIL FUNCTIONS ################
@@ -74,10 +87,38 @@ def update_json(jsonfile, new_texture_folder, new_json_filename):
 
     # Modify the value of "facial-hair" overlay
     # new_facial_hair_value = "new_facial_hair_value"
+    texture_sets_dict = data["TextureController"]["TextureSets"]
+    # texture_sets_dict['facial-hair'] = "29_adult_male_middle_east_realistic"
+    texture_sets_dict['eyes'] = "snake"
+    
+    # overlay_list = data["TextureController"]["Overlays"]
+    # facial_hair_dict = {
+    #     "CAT": "facial-hair",
+    #     "VAL": "29_adult_male_middle_east_realistic",
+    #     "COLOR": "#FFFFFFFF"
+    # }
+    # overlay_list.append(facial_hair_dict)
+    
+    # for overlay in data["TextureController"]["Overlays"]:
+    #     if overlay["CAT"] == "facial-hair":
+    #         overlay["VAL"] = new_texture_folder
+    #         break  # Assuming there's only one "facial-hair" overlay
+    
+    
     for overlay in data["TextureController"]["Overlays"]:
         if overlay["CAT"] == "facial-hair":
-            overlay["VAL"] = new_texture_folder
+            overlay["VAL"] = "29_adult_male_middle_east_realistic"
             break  # Assuming there's only one "facial-hair" overlay
+    
+    overlay_list = data["TextureController"]["Overlays"]
+    facial_hair_dict = {
+        "CAT": "facial-hair",
+        "VAL": new_texture_folder,
+        "COLOR": "#FFFFFFFF"
+    }
+    overlay_list.append(facial_hair_dict)
+    
+    
 
     # Save the updated JSON data to a new file
     with open(new_json_filename, 'w') as outfile:
@@ -109,19 +150,10 @@ for file in files_in_directory:
     counter+=1
 
 
-# ### zip all the characters into a charpack
-# zf = ZipFile(".charpacks/"+NEW_CHAR_NAME+".charpack", "w")
-# for dirname, subdirs, files in os.walk("models"):
-#     zf.write(dirname)
-#     for filename in files:
-#         zf.write(os.path.join(dirname, filename))
-# zf.close()
-
-
 ### zip all the characters into a charpack
-with ZipFile("./charpacks/"+NEW_CHAR_NAME+".charpack", "w") as zf:
-    for dirname, subdirs, files in os.walk("models"):
-        zf.write(dirname)
-        for filename in files:
-            zf.write(os.path.join(dirname, filename))
-
+zf = ZipFile("./charpacks/"+NEW_CHAR_NAME+".charpack", "w")
+for dirname, subdirs, files in os.walk("models"):
+    zf.write(dirname)
+    for filename in files:
+        zf.write(os.path.join(dirname, filename))
+zf.close()

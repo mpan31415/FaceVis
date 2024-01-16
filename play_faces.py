@@ -2,9 +2,8 @@ from furhat_remote_api import FurhatRemoteAPI
 from time import sleep
 
 # Create an instance of the FurhatRemoteAPI class, providing the address of the robot or the SDK running the virtual robot
-# furhat = FurhatRemoteAPI("10.100.237.184")
-furhat = FurhatRemoteAPI("localhost")
-# furhat = FurhatRemoteAPI("10.100.237.49")
+# furhat = FurhatRemoteAPI("localhost")
+furhat = FurhatRemoteAPI("10.100.238.89")
 
 # Get the voices on the robot
 voices = furhat.get_voices()
@@ -23,8 +22,11 @@ furhat.gesture(name="BrowRaise")
 
 # Loop through faces to create animation
 for i in range(1,11,1):
-    furhat.set_face(mask="adult",character="Amauri/Amauri"+str(i))
-    sleep(0.5)
+    # furhat.set_face(mask="adult",character="Amauri/Amauri"+str(i))
+    curr_face = "Michael/Michael"+str(i)
+    print("Setting face to %s" % curr_face)
+    furhat.set_face(mask="adult",character=curr_face)
+    sleep(1.5)
 
 # furhat.set_face(mask="adult", character="Amauri/Victor")
 # furhat.set_face(mask="adult", character="StandardExtras/Luna")
