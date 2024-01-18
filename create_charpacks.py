@@ -6,14 +6,14 @@ from zipfile import ZipFile
 
 
 ################ GLOBAL VARIABLES ################
-JSON_SRC = "json_src"
-TEXTURE_SRC = "plot_src"
+BASE_CHAR_NAME = "Emma"
+NEW_CHAR_NAME = "Clock"
 
-BASE_CHAR_NAME = "Isabel"
-NEW_CHAR_NAME = "Michael"
+JSON_SRC = "json_src"
+TEXTURE_SRC = "plot_src/"+NEW_CHAR_NAME
 
 TEXTURE_TYPE = "facial-hair"
-TEXTURE_NAME = "leaf"
+TEXTURE_NAME = "clock"
 
 # OVERLAY_NAMES = ['scars', 'skin-texture', 'eyebrows', 'eye-shadow', 'eye-liner', 'eye-effects',
 #                  'freckles', 'spots', 'skin-blush', 'nose', 'cyborg-top', 'cyborg-bottom', 
@@ -87,28 +87,14 @@ def update_json(jsonfile, new_texture_folder, new_json_filename):
 
     # Modify the value of "facial-hair" overlay
     # new_facial_hair_value = "new_facial_hair_value"
-    texture_sets_dict = data["TextureController"]["TextureSets"]
+    # texture_sets_dict = data["TextureController"]["TextureSets"]
     # texture_sets_dict['facial-hair'] = "29_adult_male_middle_east_realistic"
-    texture_sets_dict['eyes'] = "snake"
-    
-    # overlay_list = data["TextureController"]["Overlays"]
-    # facial_hair_dict = {
-    #     "CAT": "facial-hair",
-    #     "VAL": "29_adult_male_middle_east_realistic",
-    #     "COLOR": "#FFFFFFFF"
-    # }
-    # overlay_list.append(facial_hair_dict)
+    # texture_sets_dict['eyes'] = "snake"
     
     # for overlay in data["TextureController"]["Overlays"]:
     #     if overlay["CAT"] == "facial-hair":
     #         overlay["VAL"] = new_texture_folder
     #         break  # Assuming there's only one "facial-hair" overlay
-    
-    
-    for overlay in data["TextureController"]["Overlays"]:
-        if overlay["CAT"] == "facial-hair":
-            overlay["VAL"] = "29_adult_male_middle_east_realistic"
-            break  # Assuming there's only one "facial-hair" overlay
     
     overlay_list = data["TextureController"]["Overlays"]
     facial_hair_dict = {
@@ -117,7 +103,6 @@ def update_json(jsonfile, new_texture_folder, new_json_filename):
         "COLOR": "#FFFFFFFF"
     }
     overlay_list.append(facial_hair_dict)
-    
     
 
     # Save the updated JSON data to a new file
